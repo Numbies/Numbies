@@ -21,7 +21,14 @@ h1 {
   display: grid;
   grid-template-columns: repeat(3, 50px);
   gap: 10px;
-  margin-bottom: 20px;
+  margin: 20px auto; /* Center the grid horizontally and add margin */
+  max-width: 200px; /* Limit width to ensure proper centering */
+}
+
+.grid .guessRow {
+  display: grid;
+  grid-template-columns: repeat(3, 50px);
+  gap: 10px;
 }
 
 .grid div {

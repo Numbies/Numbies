@@ -22,8 +22,8 @@ function submitGuess() {
 
   const correctNumberArray = String(randomNumber).split('');
   const guessArray = guess.split('');
-  const guessHistory = document.createElement('div');
-  guessHistory.classList.add('guessRow');
+  const guessRow = document.createElement('div');
+  guessRow.classList.add('guessRow');
 
   let correctPositions = [false, false, false]; // Tracks if a position has been correctly guessed
   let usedInPartialCheck = [false, false, false]; // Tracks which positions have been used in partial check
@@ -42,13 +42,13 @@ function submitGuess() {
       div.textContent = guessArray[i];
     }
 
-    guessHistory.appendChild(div);
+    guessRow.appendChild(div);
   }
 
   // Second pass: Check for correct digits in the wrong position (yellow)
   for (let i = 0; i < 3; i++) {
     if (!correctPositions[i]) {
-      const div = guessHistory.children[i];
+      const div = guessRow.children[i];
 
       // Check if the digit exists in the remaining unmatched digits
       const index = correctNumberArray.indexOf(guessArray[i]);
@@ -61,7 +61,7 @@ function submitGuess() {
     }
   }
 
-  grid.appendChild(guessHistory); // Add the guess to the grid for history
+  grid.appendChild(guessRow); // Add the guess to the grid for history
 
   if (guess === String(randomNumber)) {
     message.textContent = `You guessed the correct number in ${attempts} attempts!`;

@@ -19,27 +19,47 @@ function submitGuess() {
 
   attempts++;
   message.textContent = "";
-  grid.innerHTML = ""; // Clear previous grid
 
-  // Compare each digit
+  const correctNumberArray = String(randomNumber).split('');
+  const guessArray = guess.split('');
+  const guessHistory = document.createElement('div');
+  guessHistory.classList.add('guessRow');
+
+  let correctPositions = [false, false, false]; // Tracks if a position has been correctly guessed
+
+  // First pass: Check for correct digits in the correct position (green)
   for (let i = 0; i < 3; i++) {
-    const guessDigit = guess[i];
-    const correctDigit = String(randomNumber)[i];
     const div = document.createElement('div');
 
-    if (guessDigit === correctDigit) {
+    if (guessArray[i] === correctNumberArray[i]) {
       div.classList.add('correct');
-      div.textContent = guessDigit;
-    } else if (String(randomNumber).includes(guessDigit)) {
-      div.classList.add('partial');
-      div.textContent = guessDigit;
+      div.textContent = guessArray[i];
+      correctPositions[i] = true; // Mark this position as matched
+      correctNumberArray[i] = null; // Prevent reuse of this digit in the second pass
     } else {
-      div.classList.add('wrong');
-      div.textContent = guessDigit;
+      div.textContent = guessArray[i];
     }
 
-    grid.appendChild(div);
+    guessHistory.appendChild(div);
   }
+
+  // Second pass: Check for correct digits in the wrong position (yellow)
+  for (let i = 0; i < 3; i++) {
+    if (!correctPositions[i]) {
+      const div = guessHistory.children[i];
+
+      // Check if the digit exists in the remaining unmatched digits
+      const index = correctNumberArray.indexOf(guessArray[i]);
+      if (index !== -1) {
+        div.classList.add('partial');
+        correctNumberArray[index] = null; // Prevent reuse of this digit
+      } else {
+        div.classList.add('wrong');
+      }
+    }
+  }
+
+  grid.appendChild(guessHistory); // Add the guess to the grid for history
 
   if (guess === String(randomNumber)) {
     message.textContent = `You guessed the correct number in ${attempts} attempts!`;

@@ -18,17 +18,17 @@ h1 {
 }
 
 .grid {
-  display: grid;
-  grid-template-columns: repeat(3, 50px);
-  gap: 10px;
-  margin: 20px auto; /* Center the grid horizontally and add margin */
-  max-width: 200px; /* Limit width to ensure proper centering */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center align the grid */
+  margin: 20px auto; /* Center the grid horizontally */
 }
 
-.grid .guessRow {
+.guessRow {
   display: grid;
   grid-template-columns: repeat(3, 50px);
   gap: 10px;
+  margin-bottom: 10px; /* Add space between rows */
 }
 
 .grid div {

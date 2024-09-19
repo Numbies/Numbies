@@ -26,6 +26,7 @@ function submitGuess() {
   guessHistory.classList.add('guessRow');
 
   let correctPositions = [false, false, false]; // Tracks if a position has been correctly guessed
+  let usedInPartialCheck = [false, false, false]; // Tracks which positions have been used in partial check
 
   // First pass: Check for correct digits in the correct position (green)
   for (let i = 0; i < 3; i++) {
@@ -35,6 +36,7 @@ function submitGuess() {
       div.classList.add('correct');
       div.textContent = guessArray[i];
       correctPositions[i] = true; // Mark this position as matched
+      usedInPartialCheck[i] = true; // Mark this position as used in partial check
       correctNumberArray[i] = null; // Prevent reuse of this digit in the second pass
     } else {
       div.textContent = guessArray[i];
@@ -50,7 +52,7 @@ function submitGuess() {
 
       // Check if the digit exists in the remaining unmatched digits
       const index = correctNumberArray.indexOf(guessArray[i]);
-      if (index !== -1) {
+      if (index !== -1 && !usedInPartialCheck[index]) {
         div.classList.add('partial');
         correctNumberArray[index] = null; // Prevent reuse of this digit
       } else {
